@@ -53,11 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final List<Transactions> transactions = [
       Transactions(
-          id: 1, title: 'new shoes from', amount: 130, date: DateTime.now()),
+          id: 1, title: 'New Shoes', amount: 130, date: DateTime.now()),
       Transactions(
           id: 2,
-          title: 'home grocerrcies',
-          amount: 160.95,
+          title: 'Home Grocerrcies',
+          amount: 60.95,
           date: DateTime.now()),
     ];
     // This method is rerun every time setState is called, for instance as done
@@ -102,8 +102,44 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Column(
             children: transactions.map((tx) {
-              return Card(
-                child: Text(tx.title),
+              return Row(
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 15),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.purple),
+                    ),
+                    child: Text(tx.amount.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple,
+                          fontSize: 20,
+                        )),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tx.title,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.purple,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        tx.date.toString(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  )
+                ],
               );
             }).toList(),
           )
