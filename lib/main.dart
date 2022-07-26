@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
-import './transactions.dart';
+import './widgets/userTransactions.dart';
 
 void main() => runApp(const MyApp());
 
@@ -51,15 +51,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final List<Transactions> transactions = [
-      Transactions(
-          id: 1, title: 'New Shoes', amount: 130, date: DateTime.now()),
-      Transactions(
-          id: 2,
-          title: 'Home Grocerrcies',
-          amount: 60.95,
-          date: DateTime.now()),
-    ];
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -73,8 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
 
         // Column is also a layout widget. It takes a list of children and
         // arranges them vertically. By default, it sizes itself to fit its
@@ -92,57 +83,16 @@ class _MyHomePageState extends State<MyHomePage> {
         // horizontal).
         //mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const SizedBox(
+          Container(
             width: double.infinity,
             child: const Card(
+              color: Colors.blue,
               child: const Text(
                 'Chart !',
               ),
             ),
           ),
-          Column(
-            children: transactions.map((tx) {
-              return Row(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Colors.purple),
-                    ),
-                    child: Text(tx.amount.toString(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
-                          fontSize: 20,
-                        )),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tx.title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.purple,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        tx.date.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              );
-            }).toList(),
-          )
+          UserTransaction(),
         ],
       ),
     );
