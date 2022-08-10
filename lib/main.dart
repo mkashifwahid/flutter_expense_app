@@ -1,7 +1,11 @@
-// ignore_for_file: unnecessary_const
+// ignore_for_file: unnecessary_const, deprecated_member_use
 
+//import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import './widgets/userTransactions.dart';
+import './widgets/transactions_list.dart';
+//import './widgets/userTransactions.dart';
+import './widgets/newTransaction.dart ';
+import './models/transactions.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,20 +16,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expense App',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
+              .copyWith(secondary: Colors.amber),
+          fontFamily: 'OpenSans',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                  titleLarge: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              )),
+          appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                      titleLarge: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  )))),
+      home: const MyHomePage(title: 'Personal Expense'),
     );
   }
 }
@@ -49,6 +67,45 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void StartAddNewTrasaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return GestureDetector(
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+            child: NewTransaction(_addNewTransaction),
+          );
+        });
+  }
+
+  final List<Transactions> transactions = [
+    //   Transactions(
+    //     id: '1',
+    //     title: 'New Shoes',
+    //     amount: 130,
+    //     date: DateTime.now(),
+    //   ),
+    //   Transactions(
+    //     id: '2',
+    //     title: 'Home Grocerrcies',
+    //     amount: 60.95,
+    //     date: DateTime.now(),
+    //   ),
+  ];
+
+  void _addNewTransaction(String title, double amount) {
+    final addNewTx = Transactions(
+        id: DateTime.now().toString(),
+        title: title,
+        amount: amount,
+        date: DateTime.now());
+
+    setState(() {
+      transactions.add(addNewTx);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -61,7 +118,16 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => StartAddNewTrasaction(context),
+            //onPressed: () => StartAddNewTrasaction(context),
+            icon: Icon(Icons.add),
+          )
+        ],
+        title: Text(
+          widget.title,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -93,9 +159,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            UserTransaction(),
+            //UserTransaction(),
+            TransactionList(transactions)
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        //onPressed: () {},
+        onPressed: () => StartAddNewTrasaction(context),
       ),
     );
   }
